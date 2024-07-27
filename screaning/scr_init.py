@@ -1,5 +1,7 @@
 bonds_list = ['SU26222RMFS8', 'SU26234RMFS3', 'SU26219RMFS4',
        'SU26212RMFS9', 'SU26243RMFS4']
+ylag_list = ['SU26222RMFS8', 'SU26234RMFS3', 'SU26219RMFS4',
+       'SU26212RMFS9', 'SU26243RMFS4']
 start_day = 20220901
 start_hist = 20231205
 begin_col = "begin"
