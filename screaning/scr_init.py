@@ -1,6 +1,7 @@
 bonds_list = ['SU26222RMFS8', 'SU26234RMFS3', 'SU26219RMFS4',
        'SU26212RMFS9', 'SU26243RMFS4']
 start_day = 20220901
+start_hist = 20231205
 begin_col = "begin"
 open_col = "open"
 names2blank = ("RMFS4 [TQOB]", "RMFS9 [TQOB]", "SU", "RMFS3 [TQOB]",

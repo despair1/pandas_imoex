@@ -7,7 +7,7 @@ from load_bond_imoex import get_candlestick_data
 def load_bonds(bonds_list = scr_init.bonds_list, start_day=scr_init.start_day) -> List[pd.DataFrame]:
     dfl = {}
     for bond_name in bonds_list:
-        dfl[bond_name] = get_candlestick_data(bond_name,start_date=scr_init.start_day)
+        dfl[bond_name] = get_candlestick_data(bond_name,start_date=start_day)
     dfa = []
     for key,df in dfl.items():
         df1 = df[[scr_init.begin_col, scr_init.open_col]]
