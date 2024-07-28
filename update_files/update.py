@@ -13,6 +13,6 @@ def update():
         i = i + ".csv"
         f = os.path.join(folder_path, i)
         print(df)
-        df.to_csv(f)
+        df.to_csv(f,index=False)
 
 update()
