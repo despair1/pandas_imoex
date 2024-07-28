@@ -6,7 +6,7 @@ import upinit
 import os
 
 
-def load_bonds(bonds_list = upinit.bonds_list, start_day=scr_init.start_day) -> List[pd.DataFrame]:
+def load_bonds(bonds_list = upinit.bonds_list, start_day=scr_init.start_day) -> pd.DataFrame:
     dfl = {}
     # for bond_name in bonds_list:
     #     dfl[bond_name] = get_candlestick_data(bond_name,start_date=start_day)
