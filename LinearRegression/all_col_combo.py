@@ -9,7 +9,7 @@ combinations_list.extend(combinations(digits, 2))
 def all_col_combo(num = 5 ):
     combinations_list = []
     for i in range(1, num):
-        print(i)
+        # print(i)
         combinations_list.extend(combinations(digits,i))
     return combinations_list
 
