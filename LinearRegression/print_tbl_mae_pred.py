@@ -18,8 +18,10 @@ print(df.index[-20])
 print(df.index[-15])
 print(df.index[-10])
 print(df.index[-5])
+print("LastDay in csv  ", df.index[-1] )
 
 pd.options.display.float_format = '{:.3f}'.format
+rep = []
 for bond in df.columns:
     # print(df.columns)
     # ycol = df.columns.to_series().str.contains(bond)
@@ -42,11 +44,12 @@ for bond in df.columns:
                150: [],
                100: [],
                50: []}
+    # print(df.columns, len(df.columns))
     for x in x_num:
         xx = df.index[-x]
         df2 = df.loc[xx:]
         for y in mae_len:
-            df1 = xcombo_mae(df2,y)
+            df1 = xcombo_mae(df2,y,len(df.columns)-1)
             # print(x,y)
             # print(df1.head())
             df_mae[x].append(df1["mae"].iat[0])
@@ -57,14 +60,32 @@ for bond in df.columns:
 
     df3 = pd.DataFrame(df_mae, index=mae_len)
     # df3.index.name = bond+"_mae"
-    print(bond+"_mae")
+    nmin = " {:.3f}".format(df3.min().min())
+    nmean = " {:.3f}".format(df3.mean().mean())
+    nmax = " {:.3f}".format(df3.max().max())
+    print(bond+"_mae", nmin, nmean, nmax)
+    rep.append([bond+"_mae", nmin, nmean, nmax])
     print(df3)
+    mae_m = nmean
+    # print(df3.min().min(), df3.mean().mean(), df3.max().max())
     df3 = pd.DataFrame(df_pred, index=mae_len)
     # df3.index.name = bond + "_pred"
-    print(bond + "_pred")
+    nmin = " {:.3f}".format(df3.min().min())
+    nmean = " {:.3f}".format(df3.mean().mean())
+    nmax = " {:.3f}".format(df3.max().max())
+    print(bond + "_pred", nmin, nmean, nmax)
+    rep.append([bond + "_pred", nmin, nmean, nmax])
     print(df3)
+    print("BBBB", bond," dif min max pred - mean mae ", " {:.3f}".format(df3.max().max()-
+                                         df3.min().min()), mae_m )
+    rep.append(["BBBB", bond," dif min max pred - mean mae ", " {:.3f}".format(df3.max().max()-
+                                                                               df3.min().min()), mae_m])
+    print()
+    # print( "{:.3f}".format(df3.min().min()), df3.mean().mean(), df3.max().max())
     # for x in x_num:
     #     xx = df.index[-x]
     #     df2 = df.loc[xx:]
     #     df1 = xcombo_mae(df2, 10)
     #     print(df1.head())
+for x in rep:
+    print(x)

@@ -14,7 +14,8 @@ import pandas as pd
 # ycol = df.columns.to_series().str.contains(lrinit.testing).idxmax()
 # df[lrinit.ylag1] = df[ycol].shift(-1)
 
-def xcombo_mae(df: pd.DataFrame, mae_len = lrinit.mae_Len) -> pd.DataFrame:
+def xcombo_mae(df: pd.DataFrame, mae_len = lrinit.mae_Len,
+               col_num = 5, comb = 5) -> pd.DataFrame:
     mae = {
         "mae": [],
         "col": [],
@@ -22,12 +23,13 @@ def xcombo_mae(df: pd.DataFrame, mae_len = lrinit.mae_Len) -> pd.DataFrame:
     }
     df.columns = df.columns.str.slice(0, 5)
     # print("LLLLLLLLLLLLL", len(df))
-    for i in all_col_combo():
+    prev = df.index[-2]
+    for i in all_col_combo(col_num, comb):
         x_col = []
         for ii in i:
             x_col.append(df.columns[ii])
         # print("xxxxxxxxx", x_col)
-        prev = df.index[-2]
+
         df1 = predict(df, x_col, prev, lrinit.ylag1, lrinit.ypred)
         # print(df1[[lrinit.ylag1,lrinit.ypred]])
         pr = df1[lrinit.ypred].iat[-1]
@@ -40,8 +42,10 @@ def xcombo_mae(df: pd.DataFrame, mae_len = lrinit.mae_Len) -> pd.DataFrame:
         mae["col"].append(x_col)
         mae["pred"].append(pr)
 
-    df = pd.DataFrame(mae)
-    sorted_df = df.sort_values(by='mae')
+    df4 = pd.DataFrame(mae)
+    sorted_df = df4.sort_values(by='mae')
+    # print(sorted_df["col"].iat[0]," {:.3f}".format(sorted_df["mae"].iat[0]))
+    # df1 = predict(df, sorted_df["col"].iat[0], prev, lrinit.ylag1, lrinit.ypred, True)
     return sorted_df
 
 # print(sorted_df)

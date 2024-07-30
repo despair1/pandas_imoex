@@ -14,7 +14,7 @@ df = load_bonds(start_day=scr_init.start_hist)
 rename_col(df)
 df = df.dropna()
 ycol = df.columns.to_series().str.contains(lrinit.bond_for_mae_list).idxmax()
-
+print("YYYYYYYYYY", ycol)
 df[lrinit.ylag1] = df[ycol].shift(-1)
 print("bond for mae  ", lrinit.bond_for_mae_list)
 x_num = (250,200,150,100,50)
@@ -28,7 +28,7 @@ for x in x_num:
     xx = df.index[-x]
     df2 = df.loc[xx:]
     for y in mae_len:
-        df1 = xcombo_mae(df2,y)
+        df1 = xcombo_mae(df2,y,len(df.columns)-1)
         print(x,y)
         print(df1.head())
         df_mae[x].append(df1["mae"].iat[0])
@@ -42,5 +42,5 @@ for x in x_num:
     xx = df.index[-x]
     print("start_training_day", xx)
     df2 = df.loc[xx:]
-    df1 = xcombo_mae(df2, mae_last_days)
+    df1 = xcombo_mae(df2, mae_last_days, len(df.columns)-1)
     print(df1.head())
