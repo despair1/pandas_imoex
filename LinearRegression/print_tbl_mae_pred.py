@@ -22,6 +22,8 @@ print("LastDay in csv  ", df.index[-1] )
 
 pd.options.display.float_format = '{:.3f}'.format
 rep = []
+count_cols_dict = {}
+count_cols_dict5 = {}
 for bond in df.columns:
     # print(df.columns)
     # ycol = df.columns.to_series().str.contains(bond)
@@ -45,11 +47,26 @@ for bond in df.columns:
                100: [],
                50: []}
     # print(df.columns, len(df.columns))
+    col_names = df.columns.str.slice(0, 5)
+    count_cols = {}
+    for x in col_names:
+        count_cols[x] = 0
+    count_cols5 = {}
+    for x in col_names:
+        count_cols5[x] = 0
     for x in x_num:
         xx = df.index[-x]
         df2 = df.loc[xx:]
         for y in mae_len:
             df1 = xcombo_mae(df2,y,len(df.columns)-1)
+            for key in count_cols.keys():
+                if key in df1["col"].iat[0]:
+                    count_cols[key] += 1
+            for key in count_cols5.keys():
+                for row in range(len(df.columns) - 1):
+                    # print(row)
+                    if key in df1["col"].iat[row]:
+                        count_cols5[key] += 1
             # print(x,y)
             # print(df1.head())
             df_mae[x].append(df1["mae"].iat[0])
@@ -58,6 +75,10 @@ for bond in df.columns:
             df_mae1[(x,"mae")].append(df1["mae"].iat[0])
             df_mae1[(x,"pred")].append(df1["pred"].iat[0])
 
+    # print("Count_cols", count_cols)
+    count_cols_dict[bond] = count_cols
+    count_cols_dict5[bond] = count_cols5
+
     df3 = pd.DataFrame(df_mae, index=mae_len)
     # df3.index.name = bond+"_mae"
     nmin = " {:.3f}".format(df3.min().min())
@@ -65,6 +86,7 @@ for bond in df.columns:
     nmax = " {:.3f}".format(df3.max().max())
     print(bond+"_mae", nmin, nmean, nmax)
     rep.append([bond+"_mae", nmin, nmean, nmax])
+    # rep.append(["Count_cols", count_cols])
     print(df3)
     mae_m = nmean
     # print(df3.min().min(), df3.mean().mean(), df3.max().max())
@@ -89,3 +111,13 @@ for bond in df.columns:
     #     print(df1.head())
 for x in rep:
     print(x)
+print()
+for key, col in count_cols_dict.items():
+    sorted_dict = dict(sorted(col.items(),
+                              key=lambda item: item[1], reverse=True))
+    print(key,sorted_dict)
+print()
+for key, col in count_cols_dict5.items():
+    sorted_dict = dict(sorted(col.items(),
+                              key=lambda item: item[1], reverse=True))
+    print(key,sorted_dict)
