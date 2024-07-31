@@ -24,14 +24,30 @@ df_mae = { 250: [],
            150: [],
            100: [],
            50: []}
+col_names = df.columns.str.slice(0, 5)
+count_cols = {}
+for x in col_names:
+    count_cols[x] = 0
+count_cols5 = {}
+for x in col_names:
+    count_cols5[x] = 0
 for x in x_num:
     xx = df.index[-x]
     df2 = df.loc[xx:]
     for y in mae_len:
         df1 = xcombo_mae(df2,y,len(df.columns)-1)
-        print(x,y)
+        for key in count_cols.keys():
+            if key in df1["col"].iat[0]:
+                count_cols[key] += 1
+        for key in count_cols5.keys():
+            for row in range(len(df.columns)-1):
+                # print(row)
+                if key in df1["col"].iat[row]:
+                    count_cols5[key] += 1
+        print("train, mae wind", x,y)
         print(df1.head())
         df_mae[x].append(df1["mae"].iat[0])
+
 
 df3 = pd.DataFrame(df_mae, index=mae_len)
 print(df3)
@@ -44,3 +60,6 @@ for x in x_num:
     df2 = df.loc[xx:]
     df1 = xcombo_mae(df2, mae_last_days, len(df.columns)-1)
     print(df1.head())
+print("YYYYYYYYYY", ycol)
+print(count_cols)
+print(count_cols5)
