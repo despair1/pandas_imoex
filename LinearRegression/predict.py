@@ -5,6 +5,8 @@ from sklearn.linear_model import LinearRegression
 
 def predict(df : pd.DataFrame, x_col_names: List, last_y_index,
             y_col_name: str, pred_col_name, pr = False ):
+    # print("LLLLLLLLL", last_y_index, x_col_names)
+    # print(df.columns)
     X = df.loc[:last_y_index, x_col_names]
     y = df.loc[:last_y_index, y_col_name]  # target
     model = LinearRegression()
