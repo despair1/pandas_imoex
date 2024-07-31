@@ -7,6 +7,11 @@ import matplotlib.pyplot as plt
 
 df = load_bonds()
 rename_col(df)
+df.dropna()
+start_date = df.index.min()
+end_date = df.index.max()
+complete_date_range = pd.date_range(start=start_date, end=end_date, freq='D')
+df = df.reindex(complete_date_range, method="ffill")
 # df.plot()
 # df[-50:].plot()
 # print(df)
