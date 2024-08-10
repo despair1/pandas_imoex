@@ -9,6 +9,7 @@ from sklearn.metrics import mean_absolute_error
 import pandas as pd
 from xcombo_mae import xcombo_mae
 import upinit
+from p_mae_pred import p_mae_pred
 
 pd.options.mode.copy_on_write = True
 df = load_bonds(start_day=scr_init.start_hist)
@@ -79,36 +80,9 @@ for bond in df.columns:
     count_cols_dict[bond] = count_cols
     count_cols_dict5[bond] = count_cols5
 
-    df3 = pd.DataFrame(df_mae, index=mae_len)
-    # df3.index.name = bond+"_mae"
-    nmin = " {:.3f}".format(df3.min().min())
-    nmean = " {:.3f}".format(df3.mean().mean())
-    nmax = " {:.3f}".format(df3.max().max())
-    print(bond+"_mae", nmin, nmean, nmax)
-    rep.append([bond+"_mae", nmin, nmean, nmax])
-    # rep.append(["Count_cols", count_cols])
-    print(df3)
-    mae_m = nmean
-    # print(df3.min().min(), df3.mean().mean(), df3.max().max())
-    df3 = pd.DataFrame(df_pred, index=mae_len)
-    # df3.index.name = bond + "_pred"
-    nmin = " {:.3f}".format(df3.min().min())
-    nmean = " {:.3f}".format(df3.mean().mean())
-    nmax = " {:.3f}".format(df3.max().max())
-    print(bond + "_pred", nmin, nmean, nmax)
-    rep.append([bond + "_pred", nmin, nmean, nmax])
-    print(df3)
-    print("BBBB", bond," dif min max pred - mean mae ", " {:.3f}".format(df3.max().max()-
-                                         df3.min().min()), mae_m )
-    rep.append(["BBBB", bond," dif min max pred - mean mae ", " {:.3f}".format(df3.max().max()-
-                                                                               df3.min().min()), mae_m])
-    print()
-    # print( "{:.3f}".format(df3.min().min()), df3.mean().mean(), df3.max().max())
-    # for x in x_num:
-    #     xx = df.index[-x]
-    #     df2 = df.loc[xx:]
-    #     df1 = xcombo_mae(df2, 10)
-    #     print(df1.head())
+    p_mae_pred(bond,df_mae,df_pred,rep, mae_len)
+
+
 for x in rep:
     print(x)
 print()
@@ -116,8 +90,22 @@ for key, col in count_cols_dict.items():
     sorted_dict = dict(sorted(col.items(),
                               key=lambda item: item[1], reverse=True))
     print(key,sorted_dict)
+    count_cols_dict[key]=sorted_dict
 print()
 for key, col in count_cols_dict5.items():
     sorted_dict = dict(sorted(col.items(),
                               key=lambda item: item[1], reverse=True))
     print(key,sorted_dict)
+
+
+from bool_table_sorted_count_cols import get_bool_count_table
+
+print(count_cols_dict)
+b1,b2 = get_bool_count_table(count_cols_dict)
+df3 = pd.DataFrame(df_mae, index=mae_len)
+df4 = pd.DataFrame(df_pred, index=mae_len)
+
+# print(df3[b1])
+# print(b2)
+p_mae_pred(bond,df_mae,df_pred,rep, mae_len)
+p_mae_pred(bond,df3[b1],df4[b1],rep, mae_len)

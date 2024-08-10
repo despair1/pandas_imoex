@@ -45,10 +45,11 @@ def get_bool_count_table(dict1=dict1):
                 df_bool[x].append(first_key in df1["col"].iat[0])
                 df_bool2[x].append((first_key in df1["col"].iat[0]) and
                                    (second_key in df1["col"].iat[0]))
-        df_bool = pd.DataFrame(df_bool, index=mae_len)
+        df_boolr = pd.DataFrame(df_bool, index=mae_len)
         print("BBBBBBBBB", bond)
-        print(df_bool)
-        df_bool = pd.DataFrame(df_bool2, index=mae_len)
-        print(df_bool)
+        print(df_boolr)
+        df_boolr2 = pd.DataFrame(df_bool2, index=mae_len)
+        print(df_boolr2)
+        return df_boolr, df_boolr2
 
 get_bool_count_table()

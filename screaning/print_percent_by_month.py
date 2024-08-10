@@ -1,4 +1,4 @@
-from load_bonds import load_bonds
+from load_csv_bonds import load_bonds
 from rename_columns import rename_col
 import pandas as pd
 
@@ -15,4 +15,6 @@ for i in range(df.shape[1]):
     df[c] = df["y"]/df[c]
     df[c] = (df[c]**12-1)*100
 del df["y"]
-print(df)
+df1 = df[-5:]
+# print(df)
+print(df1)
